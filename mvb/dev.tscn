@@ -1,0 +1,63 @@
+[gd_scene load_steps=8 format=3 uid="uid://ch5di1sketwlj"]
+
+[ext_resource type="Script" path="res://CameraFollow.gd" id="1_ef24c"]
+[ext_resource type="Script" path="res://PlayerMovement.gd" id="1_h7jc2"]
+[ext_resource type="Material" uid="uid://dkuf50nqh212g" path="res://assets/prototype materials/dark.tres" id="1_ss6hc"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_77rye"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_tku77"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_o71ht"]
+
+[sub_resource type="TorusMesh" id="TorusMesh_s8i6a"]
+
+[node name="dev" type="Node3D"]
+
+[node name="map" type="Node3D" parent="."]
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="map"]
+use_collision = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="map/CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.644898, -0.342498, 0.688974)
+size = Vector3(38, 1, 37.0141)
+material = ExtResource("1_ss6hc")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="map"]
+transform = Transform3D(1, 0, 0, 0, -0.967946, 0.251157, 0, -0.251157, -0.967946, -27.5929, 370.384, -253.058)
+
+[node name="Player" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="Player"]
+collision_layer = 2
+script = ExtResource("1_h7jc2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player/CharacterBody3D"]
+shape = SubResource("CapsuleShape3D_77rye")
+
+[node name="capsule" type="MeshInstance3D" parent="Player/CharacterBody3D"]
+mesh = SubResource("CapsuleMesh_tku77")
+skeleton = NodePath("../..")
+
+[node name="box" type="MeshInstance3D" parent="Player/CharacterBody3D"]
+transform = Transform3D(0.39, 0, 0, 0, 0.39, 0, 0, 0, 0.39, -0.00869703, 0.233144, -3)
+mesh = SubResource("BoxMesh_o71ht")
+skeleton = NodePath("../capsule")
+
+[node name="Target" type="Node3D" parent="Player/CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player/CharacterBody3D/Target"]
+transform = Transform3D(0.065, 0, 0, 0, -2.84124e-09, -0.065, 0, 0.065, -2.84124e-09, 0, 0, 0)
+mesh = SubResource("TorusMesh_s8i6a")
+skeleton = NodePath("../../../..")
+
+[node name="Camera3D" type="Camera3D" parent="Player" node_paths=PackedStringArray("target", "raycast")]
+script = ExtResource("1_ef24c")
+target = NodePath("../CharacterBody3D/Target")
+raycast = NodePath("../CameraOrigin")
+
+[node name="CameraOrigin" type="RayCast3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
