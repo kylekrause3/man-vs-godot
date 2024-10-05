@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://ch5di1sketwlj"]
+
+[ext_resource type="Material" uid="uid://dkuf50nqh212g" path="res://assets/prototype materials/dark.tres" id="1_ydb30"]
+[ext_resource type="PackedScene" uid="uid://c1rwqvopitm2k" path="res://scenes/entities/player.tscn" id="2_4ar6o"]
+
+[node name="dev" type="Node3D"]
+
+[node name="map" type="Node3D" parent="."]
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="map"]
+use_collision = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="map/CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.144898, -0.342498, -0.803976)
+size = Vector3(31, 1, 40)
+material = ExtResource("1_ydb30")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="map"]
+transform = Transform3D(1, 0, 0, 0, -0.967946, 0.251157, 0, -0.251157, -0.967946, -27.5929, 370.384, -253.058)
+
+[node name="Player" parent="." instance=ExtResource("2_4ar6o")]

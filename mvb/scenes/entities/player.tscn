@@ -1,0 +1,47 @@
+[gd_scene load_steps=7 format=3 uid="uid://c1rwqvopitm2k"]
+
+[ext_resource type="Script" path="res://PlayerMovement.gd" id="1_kehcj"]
+[ext_resource type="Script" path="res://CameraFollow.gd" id="2_s306r"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_77rye"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_tku77"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_o71ht"]
+
+[sub_resource type="TorusMesh" id="TorusMesh_s8i6a"]
+
+[node name="Player" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="."]
+collision_layer = 2
+script = ExtResource("1_kehcj")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
+shape = SubResource("CapsuleShape3D_77rye")
+
+[node name="capsule" type="MeshInstance3D" parent="CharacterBody3D"]
+mesh = SubResource("CapsuleMesh_tku77")
+skeleton = NodePath("../..")
+
+[node name="box" type="MeshInstance3D" parent="CharacterBody3D"]
+transform = Transform3D(0.39, 0, 0, 0, 0.39, 0, 0, 0, 0.39, -0.00869703, 0.233144, -3)
+mesh = SubResource("BoxMesh_o71ht")
+skeleton = NodePath("../capsule")
+
+[node name="Target" type="Node3D" parent="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.35, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D/Target"]
+transform = Transform3D(0.065, 0, 0, 0, -2.84124e-09, -0.065, 0, 0.065, -2.84124e-09, 0, 0, 0)
+mesh = SubResource("TorusMesh_s8i6a")
+skeleton = NodePath("../../../..")
+
+[node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("target", "raycast")]
+script = ExtResource("2_s306r")
+target = NodePath("../CharacterBody3D/Target")
+raycast = NodePath("../CameraOrigin")
+
+[node name="CameraOrigin" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)

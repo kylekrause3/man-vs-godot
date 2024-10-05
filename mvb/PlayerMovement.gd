@@ -7,7 +7,7 @@ var speed = 10
 var sprintspeed = 20
 var appliedspeed;
 var applied_acceleration;
-var gravity = 20
+var gravity = 25
 var jumpstrength = 10
 
 var snap : Vector3 = Vector3.ZERO
