@@ -1,14 +1,16 @@
 extends Camera3D
 
 @export var target : Node
-@export var orbit_radius : float = 7.0
+@export var orbit_radius : float = 4.5
 @export var view_sensitivity : float = 1.0
 @export var orient_target : bool = true
 @export var raycast : RayCast3D
 @export var zoom_fov_instead_of_distance : bool = false
 @export var zoom_amount : float = 0.5
 @export var fov_change_rate : float = 100
-@export var camera_acceleration : float = 10
+@export var camera_acceleration : float = 50
+@export var camera_lerp : bool = true
+@export var do_scroll_zoom : bool = true
 
 var mouse_input : Vector2 = Vector2.ZERO
 var view_sensitivity_scalar : float = 0.25
@@ -40,7 +42,10 @@ func _ready():
 
 
 func _process(delta):
-	self.global_position = lastpos.lerp(target.global_position, camera_acceleration * delta)
+	if camera_lerp:
+		self.global_position = lastpos.lerp(target.global_position, camera_acceleration * delta)
+	else:
+		self.global_position = target.global_position
 	lastpos = self.global_position
 	var backward = get_backward(self.rotation)
 	
@@ -83,18 +88,20 @@ func _input(event):
 				Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 				do_mouse_movement = true
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-			if zoom_fov_instead_of_distance:
-				tracked_fov -= zoom_amount
-				sprintfov -= zoom_amount
-			else:
-				if orbit_radius - zoom_amount > 0:
-					orbit_radius -= zoom_amount
+			if do_scroll_zoom:
+				if zoom_fov_instead_of_distance:
+					tracked_fov -= zoom_amount
+					sprintfov -= zoom_amount
+				else:
+					if orbit_radius - zoom_amount > 0:
+						orbit_radius -= zoom_amount
 		if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-			if zoom_fov_instead_of_distance:
-				tracked_fov += zoom_amount
-				sprintfov += zoom_amount
-			else:
-				orbit_radius += zoom_amount
+			if do_scroll_zoom:
+				if zoom_fov_instead_of_distance:
+					tracked_fov += zoom_amount
+					sprintfov += zoom_amount
+				else:
+					orbit_radius += zoom_amount
 	elif event is InputEventKey and event.pressed:
 		if event.keycode == KEY_ESCAPE:
 			if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
@@ -108,6 +115,13 @@ func get_backward(rot : Vector3) -> Vector3:
 	ret = ret.rotated(Vector3(0, 1, 0), rot.y)
 	return ret.normalized()
 
+func get_camera_forward() -> Vector3:
+	return -(self.global_basis * Vector3(0, 0, 1)).normalized()
+
 
 func set_desired_fov(fov : float) -> void:
 	desired_fov = fov
+
+
+func get_target_position() -> Vector3:
+	return Vector3(target.global_position.x, target.global_position.y, target.global_position.z)
