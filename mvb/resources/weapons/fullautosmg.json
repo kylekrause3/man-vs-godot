@@ -1,0 +1,24 @@
+{
+	"name": "Full Auto SMG",
+	"class": "smg",
+	"modelpath":       null,
+	"modelscale":      null,
+	"shootsfxpath":    null,
+	"reloadsfxpath":   null,
+
+	"damage":          2,
+	"range":           30,
+	"accuracy":        0.7,
+	"recoil":          0.05,
+	"firetype":        "fullauto",
+	"roundtype":       "hitscan",
+	"shootcooldown":   null,
+	"firerate":        15,
+	"ammo":            30,
+	"maxreserveammo":  120,
+	"reloadtime":      0.5,
+	"splashdamage":    null,
+	"splashradius":    null,
+	"projectilespeed": null,
+	"projectilesize":  null
+}

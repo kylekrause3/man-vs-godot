@@ -1,5 +1,7 @@
 extends CharacterBody3D
 
+
+
 const ACCEL_DEFAULT = 7
 const ACCEL_AIR = 4
 
@@ -57,4 +59,3 @@ func do_teleport(new_position : Vector3) -> void:
 # rotate along y axis with camera
 func change_cam_orientation(y_rot_amt : float) -> void: 
 	self.rotate(Vector3(0,1,0), deg_to_rad(y_rot_amt))
-

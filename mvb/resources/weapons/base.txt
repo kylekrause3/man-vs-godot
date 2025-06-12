@@ -1,0 +1,24 @@
+{
+	"name":            null,
+	"class":           null, // "pistol", "rifle", "shotgun", "sniper", "smg", "lmg", "rocketlauncher"
+	"modelpath":       null,
+	"modelscale":      null,
+	"shootsfxpath":    null,
+	"reloadsfxpath":   null,
+
+	"damage":          null,
+	"range":           null,
+	"accuracy":        null,
+	"recoil":          null,
+	"firetype":        null, // "semiauto", "fullauto", "burst"
+	"roundtype":       null, // "hitscan" or "projectile"
+	"shootcooldown":   null,
+	"firerate":        null,
+	"ammo":            null,
+	"maxreserveammo":  null,
+	"reloadtime":      null,
+	"splashdamage":    null,
+	"splashradius":    null,
+	"projectilespeed": null,
+	"projectilesize":  null,
+}

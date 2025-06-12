@@ -1,0 +1,14 @@
+{
+	"name": "Pistol",
+	"class": "pistol",
+	"damage": 5,
+	"range": 75,
+	"accuracy": 0.8,
+	"recoil": 0.2,
+	"firetype": "semiauto",
+	"roundtype": "hitscan",
+	"shootcooldown": 0.2,
+	"ammo": 8,
+	"maxreserveammo": 80,
+	"reloadtime": 3
+}

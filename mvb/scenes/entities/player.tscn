@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://c1rwqvopitm2k"]
+[gd_scene load_steps=8 format=3 uid="uid://c1rwqvopitm2k"]
 
 [ext_resource type="Script" path="res://PlayerMovement.gd" id="1_kehcj"]
 [ext_resource type="Script" path="res://CameraFollow.gd" id="2_s306r"]
+[ext_resource type="Script" path="res://scenes/components/weaponhandler/WeaponHandler.gd" id="3_rkwf7"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_77rye"]
 
@@ -31,7 +32,7 @@ mesh = SubResource("BoxMesh_o71ht")
 skeleton = NodePath("../capsule")
 
 [node name="Target" type="Node3D" parent="CharacterBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.35, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.05118, 0.26577, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D/Target"]
 transform = Transform3D(0.065, 0, 0, 0, -2.84124e-09, -0.065, 0, 0.065, -2.84124e-09, 0, 0, 0)
@@ -39,9 +40,21 @@ mesh = SubResource("TorusMesh_s8i6a")
 skeleton = NodePath("../../../..")
 
 [node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("target", "raycast")]
+current = true
+fov = 90.0
 script = ExtResource("2_s306r")
 target = NodePath("../CharacterBody3D/Target")
+orbit_radius = 2.5
 raycast = NodePath("../CameraOrigin")
+camera_lerp = false
 
 [node name="CameraOrigin" type="RayCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+collision_mask = 0
+
+[node name="WeaponHandler" type="Node3D" parent="." node_paths=PackedStringArray("shootRayCast")]
+script = ExtResource("3_rkwf7")
+shootRayCast = NodePath("ShootCast")
+
+[node name="ShootCast" type="RayCast3D" parent="WeaponHandler"]
+collide_with_areas = true
