@@ -62,9 +62,11 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	shootbehaviorlambda.call(delta)
 	
-	if Input.is_action_just_pressed("reload") && reloadWaitTimer >= reloadTime:
+	if (Input.is_action_just_pressed("reload") || currentClipAmmo == 0) && (reloadWaitTimer >= reloadTime):
+		if !reloading:
+			reloadWaitTimer = 0
 		reloading = true
-		reloadWaitTimer = 0
+
 	
 	if reloadWaitTimer < reloadTime: 
 		reloadWaitTimer += delta

@@ -13,12 +13,11 @@
 
 [sub_resource type="TorusMesh" id="TorusMesh_s8i6a"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f5dls"]
-albedo_color = Color(0.0962047, 0.0962048, 0.0962047, 1)
-metallic = 0.65
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vyqn0"]
+albedo_color = Color(0.176419, 0.176419, 0.176419, 1)
 
-[sub_resource type="TextMesh" id="TextMesh_fwo54"]
-material = SubResource("StandardMaterial3D_f5dls")
+[sub_resource type="TextMesh" id="TextMesh_u8swr"]
+material = SubResource("StandardMaterial3D_vyqn0")
 text = "Gun"
 
 [node name="Player" type="Node3D"]
@@ -53,8 +52,8 @@ script = ExtResource("2_xfm23")
 target = NodePath("../../Camera3D")
 
 [node name="model" type="MeshInstance3D" parent="CharacterBody3D/weapon"]
-transform = Transform3D(0.224135, 0, 0.974558, 0, 1, 0, -0.974558, 0, 0.224135, 0.561893, 0.152231, -0.0604483)
-mesh = SubResource("TextMesh_fwo54")
+transform = Transform3D(0.424736, 0, 1.19383, 0, 1.305, 0, -1.84679, 0, 0.274565, 0.558647, 0.152, -0.101855)
+mesh = SubResource("TextMesh_u8swr")
 
 [node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("target", "raycast")]
 current = true
