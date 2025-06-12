@@ -62,7 +62,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	shootbehaviorlambda.call(delta)
 	
-	if Input.is_action_just_pressed("reload") && reloadWaitTimer >= reloadTime && currentReserveAmmo > 0:
+	if Input.is_action_just_pressed("reload") && reloadWaitTimer >= reloadTime:
 		reloading = true
 		reloadWaitTimer = 0
 	
@@ -74,7 +74,6 @@ func _process(delta: float) -> void:
 	
 	for x in collisions:
 		LineDrawer.DrawCube(x, 0.5, line_color)
-	
 
 func shoot():
 	shootRayCast.global_position = camera.get_target_position()
@@ -82,13 +81,13 @@ func shoot():
 	shootRayCast.force_raycast_update()
 	
 	if(shootRayCast.is_colliding()):
-		LineDrawer.DrawCube(shootRayCast.get_collision_point(), 0.2, line_color, 1.5)
-	pass
+		LineDrawer.DrawCube(shootRayCast.get_collision_point(), 0.1, line_color, 1.5)
 
 
 func reload():
-	currentReserveAmmo -= abs(currentClipAmmo - maxClipAmmo)
-	currentClipAmmo = min(maxClipAmmo, abs(maxReserveAmmo - currentReserveAmmo))
+	if currentReserveAmmo > 0:
+		currentReserveAmmo -= abs(currentClipAmmo - maxClipAmmo)
+		currentClipAmmo = min(maxClipAmmo, abs(maxReserveAmmo - currentReserveAmmo))
 
 
 func equipWeapon(filename : String):

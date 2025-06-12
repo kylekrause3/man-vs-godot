@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://c1rwqvopitm2k"]
+[gd_scene load_steps=11 format=3 uid="uid://c1rwqvopitm2k"]
 
 [ext_resource type="Script" path="res://PlayerMovement.gd" id="1_kehcj"]
 [ext_resource type="Script" path="res://CameraFollow.gd" id="2_s306r"]
-[ext_resource type="Script" path="res://scenes/components/weaponhandler/WeaponHandler.gd" id="3_rkwf7"]
+[ext_resource type="Script" path="res://trackxrotation.gd" id="2_xfm23"]
+[ext_resource type="Script" path="res://components/weaponhandler/WeaponHandler.gd" id="3_rkwf7"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_77rye"]
 
@@ -11,6 +12,14 @@
 [sub_resource type="BoxMesh" id="BoxMesh_o71ht"]
 
 [sub_resource type="TorusMesh" id="TorusMesh_s8i6a"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f5dls"]
+albedo_color = Color(0.0962047, 0.0962048, 0.0962047, 1)
+metallic = 0.65
+
+[sub_resource type="TextMesh" id="TextMesh_fwo54"]
+material = SubResource("StandardMaterial3D_f5dls")
+text = "Gun"
 
 [node name="Player" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
@@ -27,7 +36,7 @@ mesh = SubResource("CapsuleMesh_tku77")
 skeleton = NodePath("../..")
 
 [node name="box" type="MeshInstance3D" parent="CharacterBody3D"]
-transform = Transform3D(0.39, 0, 0, 0, 0.39, 0, 0, 0, 0.39, -0.00869703, 0.233144, -3)
+transform = Transform3D(0.89, 0, 0, 0, 0.195, 0, 0, 0, 0.335, -0.00869703, 0.351446, -0.385173)
 mesh = SubResource("BoxMesh_o71ht")
 skeleton = NodePath("../capsule")
 
@@ -38,6 +47,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.05118, 0.26577, 0)
 transform = Transform3D(0.065, 0, 0, 0, -2.84124e-09, -0.065, 0, 0.065, -2.84124e-09, 0, 0, 0)
 mesh = SubResource("TorusMesh_s8i6a")
 skeleton = NodePath("../../../..")
+
+[node name="weapon" type="Node3D" parent="CharacterBody3D" node_paths=PackedStringArray("target")]
+script = ExtResource("2_xfm23")
+target = NodePath("../../Camera3D")
+
+[node name="model" type="MeshInstance3D" parent="CharacterBody3D/weapon"]
+transform = Transform3D(0.224135, 0, 0.974558, 0, 1, 0, -0.974558, 0, 0.224135, 0.561893, 0.152231, -0.0604483)
+mesh = SubResource("TextMesh_fwo54")
 
 [node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("target", "raycast")]
 current = true
