@@ -1,24 +1,24 @@
 {
 	"name":            null,
-	"class":           null, // "pistol", "rifle", "shotgun", "sniper", "smg", "lmg", "rocketlauncher"
-	"modelpath":       null,
-	"modelscale":      null,
-	"shootsfxpath":    null,
-	"reloadsfxpath":   null,
+	"weaponClass":     null, // "pistol", "rifle", "shotgun", "sniper", "smg", "lmg", "rocketlauncher"
+	"modelPath":       null,
+	"modelScale":      null,
+	"shootSFXPath":    null,
+	"reloadSFXPath":   null,
 
 	"damage":          null,
 	"range":           null,
 	"accuracy":        null,
 	"recoil":          null,
-	"firetype":        null, // "semiauto", "fullauto", "burst"
-	"roundtype":       null, // "hitscan" or "projectile"
-	"shootcooldown":   null,
-	"firerate":        null,
+	"fireType":        null, // "semiauto", "fullauto", "burst"
+	"roundType":       null, // "hitscan" or "projectile"
+	"shootCooldown":   null,
+	"fireRate":        null,
 	"ammo":            null,
-	"maxreserveammo":  null,
-	"reloadtime":      null,
-	"splashdamage":    null,
-	"splashradius":    null,
-	"projectilespeed": null,
-	"projectilesize":  null,
+	"maxReserveAmmo":  null,
+	"reloadTime":      null,
+	"splashDamage":    null,
+	"splashRadius":    null,
+	"projectileSpeed": null,
+	"projectileSize":  null,
 }

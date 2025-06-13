@@ -7,36 +7,30 @@ var line_color : Color = Color(0, 255, 100)
 
 @onready var camera : Camera3D = self.get_parent().get_node("Camera3D")
 
-var currentWeapon : Dictionary
+var currentWeapon : Weapon
 
 var collisions : Array = []
 
 var timeSinceLastShot : float = 0
-var fireCooldown : float = 0 # cooldown after one shot (semi auto and burst)
 var fireCooldownTimer : float = 0
-var fireRate : float = 0 # shots per second (full auto and burst)
 var fireRateDelay : float = 0 # delay time after shot (full auto and burst) (1 / fireRate) 
 var fireRateTimer : float = 0
 
-var firetype : String
 var shootbehaviorlambda
 
 var currentReserveAmmo : int = 0
 var currentClipAmmo : int = 0
-var maxClipAmmo : int = 0
-var maxReserveAmmo : int = 0
-var reloadTime : float = 0
 var reloadWaitTimer : float = 0
 var reloading : bool = false
 
 var semiautolambda = func (delta):
-	if Input.is_action_just_pressed("shoot") && fireCooldownTimer >= fireCooldown && currentClipAmmo > 0 && !reloading:
+	if Input.is_action_just_pressed("shoot") && fireCooldownTimer >= currentWeapon.shootCooldown && currentClipAmmo > 0 && !reloading:
 		shoot()
 		currentClipAmmo -= 1
 		fireCooldownTimer = 0
 		print(camera.get_camera_forward())
 	
-	if fireCooldownTimer < fireCooldown: 
+	if fireCooldownTimer < currentWeapon.shootCooldown: 
 		fireCooldownTimer += delta
 
 var fullautolambda = func (delta):
@@ -51,24 +45,22 @@ var fullautolambda = func (delta):
 var burstlambda = func (delta):
 	pass
 
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	add_child(LineDrawer)
-	equipWeapon("fullautosmg")
-
+	equipWeapon("pistol")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	shootbehaviorlambda.call(delta)
 	
-	if (Input.is_action_just_pressed("reload") || currentClipAmmo == 0) && (reloadWaitTimer >= reloadTime):
+	if (Input.is_action_just_pressed("reload") || currentClipAmmo == 0) && (reloadWaitTimer >= currentWeapon.reloadTime):
 		if !reloading:
 			reloadWaitTimer = 0
 		reloading = true
 
 	
-	if reloadWaitTimer < reloadTime: 
+	if reloadWaitTimer < currentWeapon.reloadTime: 
 		reloadWaitTimer += delta
 	elif reloading: # && reloadWaitTimer >= reloadTime
 		reload()
@@ -88,33 +80,22 @@ func shoot():
 
 func reload():
 	if currentReserveAmmo > 0:
-		currentReserveAmmo -= abs(currentClipAmmo - maxClipAmmo)
-		currentClipAmmo = min(maxClipAmmo, abs(maxReserveAmmo - currentReserveAmmo))
-
+		currentReserveAmmo -= abs(currentClipAmmo - currentWeapon.ammo)
+		currentClipAmmo = min(currentWeapon.ammo, abs(currentWeapon.maxReserveAmmo - currentReserveAmmo))
 
 func equipWeapon(filename : String):
-	currentWeapon = load("res://resources/weapons/%s.json" % [filename]).data
-	if currentWeapon.get("shootcooldown") != null:
-		fireCooldown = currentWeapon.get("shootcooldown")
-		fireCooldownTimer = fireCooldown
-	if currentWeapon.get("firetype") != null:
-		firetype = currentWeapon.get("firetype")
-		if firetype == "semiauto":
-			shootbehaviorlambda = semiautolambda
-		if firetype == "fullauto":
-			shootbehaviorlambda = fullautolambda
-		if firetype == "burst":
-			shootbehaviorlambda = burstlambda
-	if currentWeapon.get("firerate") != null:
-		fireRate = currentWeapon.get("firerate")
-		fireRateDelay = 1 / fireRate 
-		fireRateTimer = fireRateDelay
-	if currentWeapon.get("ammo") != null:
-		maxClipAmmo = currentWeapon.get("ammo")
-		currentClipAmmo = maxClipAmmo
-	if currentWeapon.get("maxreserveammo") != null:
-		maxReserveAmmo = currentWeapon.get("maxreserveammo")
-		currentReserveAmmo = maxReserveAmmo
-	if currentWeapon.get("reloadtime") != null:
-		reloadTime = currentWeapon.get("reloadtime")
-		reloadWaitTimer = reloadTime
+	currentWeapon = AutoloadWeaponManager.getWeapon(filename)
+	fireCooldownTimer = currentWeapon.shootCooldown
+	if currentWeapon.fireType == Weapon.FireType.SEMI_AUTO:
+		shootbehaviorlambda = semiautolambda
+	elif currentWeapon.fireType == Weapon.FireType.BURST:
+		shootbehaviorlambda = burstlambda
+	elif currentWeapon.fireType == Weapon.FireType.FULL_AUTO:
+		shootbehaviorlambda = fullautolambda
+		
+	fireRateDelay = 1 / currentWeapon.fireRate 	
+	fireRateTimer = fireRateDelay
+	currentClipAmmo = currentWeapon.ammo
+	
+	currentReserveAmmo = currentWeapon.maxReserveAmmo
+	reloadWaitTimer = currentWeapon.reloadTime
