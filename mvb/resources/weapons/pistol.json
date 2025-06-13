@@ -1,14 +1,15 @@
 {
-	"name": "Pistol",
-	"class": "pistol",
+	"name": "pistol",
+	"weaponClass": "PISTOL",
+	"fireType": "SEMI_AUTO",
+	"roundType": "HITSCAN",
 	"damage": 5,
 	"range": 75,
 	"accuracy": 0.8,
 	"recoil": 0.2,
-	"firetype": "semiauto",
-	"roundtype": "hitscan",
-	"shootcooldown": 0.2,
+	"shootCooldown": 0.1,
+	"fireRate": 0,
 	"ammo": 8,
-	"maxreserveammo": 80,
-	"reloadtime": 3
+	"maxReserveAmmo": 80,
+	"reloadTime": 2
 }

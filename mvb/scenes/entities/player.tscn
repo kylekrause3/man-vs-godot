@@ -1,9 +1,9 @@
 [gd_scene load_steps=11 format=3 uid="uid://c1rwqvopitm2k"]
 
-[ext_resource type="Script" path="res://PlayerMovement.gd" id="1_kehcj"]
-[ext_resource type="Script" path="res://CameraFollow.gd" id="2_s306r"]
-[ext_resource type="Script" path="res://trackxrotation.gd" id="2_xfm23"]
-[ext_resource type="Script" path="res://components/weaponhandler/WeaponHandler.gd" id="3_rkwf7"]
+[ext_resource type="Script" uid="uid://bvyisc172mvhs" path="res://PlayerMovement.gd" id="1_kehcj"]
+[ext_resource type="Script" uid="uid://3jdmk120pv4l" path="res://CameraFollow.gd" id="2_s306r"]
+[ext_resource type="Script" uid="uid://bjtar4pjqaxc5" path="res://trackxrotation.gd" id="2_xfm23"]
+[ext_resource type="Script" uid="uid://bhkh52eq3i8hr" path="res://components/weaponhandler/WeaponHandler.gd" id="3_rkwf7"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_77rye"]
 
@@ -21,7 +21,6 @@ material = SubResource("StandardMaterial3D_vyqn0")
 text = "Gun"
 
 [node name="Player" type="Node3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="."]
 collision_layer = 2
